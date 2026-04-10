@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Required by the premex-ab org ruleset: a status check named "CI"
+# must pass before PRs can merge to main. The job id below must remain
+# `ci` with `name: CI` so GitHub reports the check context as "CI".
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Check JavaScript syntax
+        run: node --check script.js
+
+      - name: Verify required files exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            "index.html"
+            "style.css"
+            "script.js"
+            "README.md"
+            "reset.sh"
+          )
+          missing=0
+          for f in "${required[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "::error file=$f::Missing required file: $f"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+          echo "All required files present."
+
+      - name: Verify reset.sh is executable
+        run: test -x reset.sh
