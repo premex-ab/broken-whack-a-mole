@@ -107,11 +107,11 @@ h1 {
 .mole::before { left: 25%; }
 .mole::after  { right: 25%; }
 
-/* BUG #1 (visual — CSS typo): `transfrom` instead of `transform`.
+/* BUG #1 (visual — CSS typo): `bottm` instead of `bottom`.
    Moles never rise out of the holes when .up is applied. */
 .hole.up .mole {
-  bottom: 15%;
-  transfrom: translateX(-50%) scale(1.05);
+  bottm: 15%;
+  transform: translateX(-50%) scale(1.05);
 }
 
 .controls {
