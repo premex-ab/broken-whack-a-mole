@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #87ceeb 0%, #98d98e 60%, #6b8e23 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.game {
+  background: #fffdf7;
+  border-radius: 16px;
+  padding: 32px 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 32px;
+  color: #333;
+}
+
+.scoreboard {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 24px;
+  font-size: 20px;
+}
+
+.score-box,
+.time-box {
+  background: #3b2f1c;
+  color: #ffdd55;
+  padding: 12px 24px;
+  border-radius: 8px;
+  min-width: 100px;
+}
+
+/* BUG #3 (a11y — low contrast): dark red on darker red */
+.time-box {
+  color: #8b0000;
+  background: #4a0000;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.hole {
+  all: unset;
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(ellipse at center, #6b4423 0%, #3e2a16 70%);
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 4px solid #2d1f0e;
+}
+
+.hole:focus-visible {
+  outline: 3px solid #ffdd55;
+  outline-offset: 3px;
+}
+
+.mole {
+  position: absolute;
+  left: 50%;
+  bottom: -60%;
+  width: 70%;
+  height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, #a0522d 0%, #6b3410 100%);
+  border-radius: 50% 50% 45% 45%;
+  transition: bottom 0.15s ease-out;
+}
+
+.mole::before,
+.mole::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  width: 10px;
+  height: 10px;
+  background: #000;
+  border-radius: 50%;
+}
+.mole::before { left: 25%; }
+.mole::after  { right: 25%; }
+
+/* BUG #1 (visual — CSS typo): `transfrom` instead of `transform`.
+   Moles never rise out of the holes when .up is applied. */
+.hole.up .mole {
+  bottom: 15%;
+  transfrom: translateX(-50%) scale(1.05);
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.controls button {
+  font-size: 16px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 2px solid #3b2f1c;
+  background: #fffdf7;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.controls .primary {
+  background: #ffdd55;
+}
+
+.controls button:hover {
+  transform: translateY(-1px);
+}
